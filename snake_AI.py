@@ -23,7 +23,7 @@ BLUE2 = (0, 100, 255)
 BLACK = (0,0,0)
 
 BLOCK_SIZE = 20
-SPEED = 20
+SPEED = 40  # mutch the number is higher mutch faster that go. 20 is for weak human AI are so mutch better
 
 class SnakeGameAI:
     
@@ -59,7 +59,7 @@ class SnakeGameAI:
         if self.food in self.snake:
             self._place_food()
         
-    def play_step(self, action:list):
+    def play_step(self, action:list, attemp:int):
         self.frame_iteration += 1
         # 1. collect user input
         for event in pygame.event.get():
@@ -90,7 +90,7 @@ class SnakeGameAI:
             self.snake.pop()
         
         # 5. update ui and clock
-        self._update_ui()
+        self._update_ui(attemp)
         self.clock.tick(SPEED)
         # 6. return game over and score
         return reward, game_over, self.score
@@ -109,7 +109,7 @@ class SnakeGameAI:
         
         return False
         
-    def _update_ui(self):
+    def _update_ui(self, attemp:int):
         self.display.fill(BLACK)
         
         for pt in self.snake:
@@ -118,8 +118,10 @@ class SnakeGameAI:
             
         pygame.draw.rect(self.display, RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
         
-        text = font.render("Score: " + str(self.score), True, WHITE)
+        text = font.render("Score : " + str(self.score), True, WHITE)
         self.display.blit(text, [0, 0])
+        attemp = font.render(f"attemp{'s' if attemp>1 else ''} : " + str(attemp), True, WHITE)
+        self.display.blit(attemp, [100, 0])
         pygame.display.flip()
         
     def _move(self, action:list):
