@@ -123,12 +123,13 @@ def train() :
 
         if done : 
             game.reset()
-            agent.n_game += 1
+            agent.n_games += 1
             agent.train_long_memory()
 
             if score > record :
                 record = score
-                agent.move.save()
+                agent.model.save()
+                
         
             print(f"nbr Game : {agent.n_games} | Score : {score} | record : {record}")
 
